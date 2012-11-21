@@ -44,26 +44,37 @@
           </a>
           <a class="brand" href="#">{{count}}</a>
           <form class="navbar-search pull-left">
-            <input type="text" class="search-query" placeholder="Search">
+            <input type="text" placeholder="Search" ng-model="query">
             <button class="btn btn-primary btn-small" type="submit" ng-click="query()">Search</button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="container">
-      <table>
-        <tr>
-          <th ng-repeat='field in fields'>
-            {{field}}
-          </th>
-        </tr>
-        <tr ng-repeat='event in events'>
-          <td ng-repeat='field in fields'>
-            {{event[field]}}
-          </td>
-        </tr>
-      </table>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="content span2" id="sidebar">
+          <ul>
+            <li ng-repeat='field in fields'>
+              {{field}}
+            </li>
+          </ul>
+        </div>
+        <div class="content span10" id="content">
+          <table>
+            <tr>
+              <th ng-repeat='field in fields'>
+                {{field}}
+              </th>
+            </tr>
+            <tr ng-repeat='event in events'>
+              <td ng-repeat='field in fields'>
+                {{event[field]}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div> <!-- /container -->
   </body>
 </html>

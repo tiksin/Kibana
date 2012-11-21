@@ -5,6 +5,7 @@ function KibanaCtrl($scope, $http) {
   $scope.query = function() {
     $http.get('http://localhost:5601/api/search/eyJzZWFyY2giOiIiLCJmaWVsZHMiOltdLCJvZmZzZXQiOjAsInRpbWVmcmFtZSI6IjQzMjAwIiwiZ3JhcGhtb2RlIjoiY291bnQiLCJ0aW1lIjp7InVzZXJfaW50ZXJ2YWwiOjB9LCJzdGFtcCI6MTM1MzI5NTMxODg5MH0=?_=1353295319015').
       success(function(data, status, headers, config) {
+        console.log($scope.query)
         $scope.fields = get_all_fields(data)
         $scope.events = []
         $.each(data.hits.hits, function(i, v) {
