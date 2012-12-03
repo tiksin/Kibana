@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en" ng-app='Kibana'>
   <head>
     <meta charset="utf-8">
     <title>Kibana</title>
@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <!-- Le javascript -->
+    <script src="/lib/js/lib/underscore-min.js"></script>
     <script src="/lib/js/lib/jquery.min.js"></script>
     <script src="/lib/js/angular.js"></script>
     <script src="/lib/js/shared.js"></script>
@@ -44,8 +45,8 @@
           </a>
           <a class="brand" href="#">{{count}}</a>
           <form class="navbar-search pull-left">
-            <input type="text" placeholder="Search" ng-model="query">
-            <button class="btn btn-primary btn-small" type="submit" ng-click="query()">Search</button>
+            <input type="text" placeholder="Search" ng-model="request" name="query_string">
+            <button class="btn btn-primary btn-small" type="submit" ng-click="result()">Search</button>
           </form>
         </div>
       </div>
@@ -54,21 +55,21 @@
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="content span2" id="sidebar">
-          <ul>
-            <li ng-repeat='field in fields'>
-              {{field}}
+          <ul id="fields" class="nav nav-list">
+            <li ng-repeat='field in fields.available' ng-click='toggle_field(field)'>
+              <a ng-class="{small: true, selected: selected_field(field)}">{{field}}</a>
             </li>
           </ul>
         </div>
         <div class="content span10" id="content">
-          <table>
+          <table class="table table-condensed table-striped">
             <tr>
-              <th ng-repeat='field in fields'>
+              <th ng-repeat='field in fields.show'>
                 {{field}}
               </th>
             </tr>
             <tr ng-repeat='event in events'>
-              <td ng-repeat='field in fields'>
+              <td ng-repeat='field in fields.show'>
                 {{event[field]}}
               </td>
             </tr>
