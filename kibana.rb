@@ -142,6 +142,9 @@ get '/auth/login' do
   if session[:login_message]
     locals[:login_message] = session[:login_message]
   end
+  if KibanaConfig::Auth_module == "cas"
+    locals[:cas_enable] = true
+  end
   erb :login, :locals => locals
 end
 
