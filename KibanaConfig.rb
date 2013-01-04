@@ -122,6 +122,8 @@ module KibanaConfig
 
   # Authentication Module
   Auth_module = 'elasticsearch'
+  #Auth_module = 'cas'
+  #CAS_url = 'https://exemple.com/cas'
 
   Auth_Admin_User  = 'kibana'
   Auth_Admin_Pass  = 'password'
