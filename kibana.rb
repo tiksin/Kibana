@@ -165,6 +165,21 @@ post '/auth/login' do
   end
 end
 
+get '/auth/cas' do
+  if params[:ticket]
+    st = @@auth_module.validate_ticket(params)
+    if st.nil?
+      redirect '/auth/login'
+    else
+      session[:username] = st.user
+      session[:login_message] = ""
+      redirect '/'
+    end
+  else
+    redirect @@auth_module.redirect_to_cas
+  end
+end
+
 get '/auth/logout' do
   if !@@auth_module
     redirect '/'
