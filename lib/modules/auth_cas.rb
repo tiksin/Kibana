@@ -19,7 +19,7 @@ class AuthCAS
   # Required function, accepts a KibanaConfig object
   def initialize(config)
     puts "Initializing CAS module"
-    @cas_url = (defined? config::CAS_url) ? config::CAS_url : "https://cas.exemple.com:8443/"
+    @cas_url = config::CAS_url
     @cas_service = config::CAS_service + '/auth/cas'
     @cas_client = CASClient::Client.new({:cas_base_url => @cas_url})
     @proxy_auth = AuthElasticSearch.new(config)
@@ -64,8 +64,6 @@ class AuthCAS
   end
 
   def redirect_to_cas()
-    #return 'https://cas.edqm.eu:8443/cas/login?service=http://weblog.edqm.eu/auth/cas'
-    puts @cas_client.add_service_to_login_url(@cas_service)
     return @cas_client.add_service_to_login_url(@cas_service)
   end
 
