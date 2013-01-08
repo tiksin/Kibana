@@ -66,11 +66,6 @@ class AuthCAS
     return @cas_client.add_service_to_login_url(@cas_service)
   end
 
-  def get_service()
-    #return "http://weblog.edqm.eu/auth/cas"
-    return "http://192.168.128.49:5601/auth/cas"
-  end
-
   def validate_ticket(params)
       ticket = params[:ticket]
       return nil unless ticket
