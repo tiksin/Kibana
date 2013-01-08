@@ -19,9 +19,8 @@ class AuthCAS
   # Required function, accepts a KibanaConfig object
   def initialize(config)
     puts "Initializing CAS module"
-    @cas_url = config::CAS_url
     @cas_service = config::CAS_service + '/auth/cas'
-    @cas_client = CASClient::Client.new({:cas_base_url => @cas_url})
+    @cas_client = CASClient::Client.new({:cas_base_url => config::CAS_url})
     @proxy_auth = AuthElasticSearch.new(config)
   end
 
