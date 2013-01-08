@@ -19,8 +19,9 @@ class AuthCAS
   # Required function, accepts a KibanaConfig object
   def initialize(config)
     puts "Initializing CAS module"
-    @url = (defined? config::CAS_url) ? config::CAS_url : "https://cas.exemple.com:8443/"
-    @cas_client = CASClient::Client.new({:cas_base_url => @url})
+    @cas_url = (defined? config::CAS_url) ? config::CAS_url : "https://cas.exemple.com:8443/"
+    @cas_service = config::CAS_service + '/auth/cas'
+    @cas_client = CASClient::Client.new({:cas_base_url => @cas_url})
     @proxy_auth = AuthElasticSearch.new(config)
   end
 
@@ -63,11 +64,14 @@ class AuthCAS
   end
 
   def redirect_to_cas()
-    return 'https://cas.edqm.eu:8443/cas/login?service=http://weblog.edqm.eu/auth/cas'
+    #return 'https://cas.edqm.eu:8443/cas/login?service=http://weblog.edqm.eu/auth/cas'
+    puts @cas_client.add_service_to_login_url(@cas_service)
+    return @cas_client.add_service_to_login_url(@cas_service)
   end
 
   def get_service()
-    return "http://weblog.edqm.eu/auth/cas"
+    #return "http://weblog.edqm.eu/auth/cas"
+    return "http://192.168.128.49:5601/auth/cas"
   end
 
   def validate_ticket(params)
@@ -75,9 +79,9 @@ class AuthCAS
       return nil unless ticket
       #log.debug("Request contains ticket #{ticket.inspect}.")
       if ticket =~ /^PT-/
-        t = CASClient::ProxyTicket.new(ticket, get_service)
+        t = CASClient::ProxyTicket.new(ticket, @cas_service)
       else
-        t = CASClient::ServiceTicket.new(ticket, get_service)
+        t = CASClient::ServiceTicket.new(ticket, @cas_service)
       end
       st = @cas_client.validate_service_ticket(t)
       return st
