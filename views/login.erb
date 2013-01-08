@@ -35,9 +35,10 @@
 
   <div class="hugeotron masthead">
     <div class="container">
+     <h1><img src='../../images/kibana_text.png'></h1>
+     <p>Make sense of a mountain of logs</p>
       <div class=row>
-        <h1><img src='../../images/kibana_text.png'></h1>
-        <p>Make sense of a mountain of logs</p>
+       <div class="span3">
         <% if locals[:login_message] %>
         <p><span class="label label-success"><%= locals[:login_message] %></span></p>
         <% end %>
@@ -47,8 +48,14 @@
           <button class="btn btn-success" type=submit>Login</button>
        </form>
     </div>
+     <% if locals[:cas_enable] %>
+        <div class="span2">
+          <p><span class="label label-success">Or use our sso :</span></p>
+          <a class="btn btn-success btn-large" href="/auth/cas"><i class="icon-off icon-white"></i> CAS</a>
+        </div>
+    <% end %>
     </div>
-
+  </div>
   </div>
 
 
