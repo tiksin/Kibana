@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# $FreeBSD:
+# PROVIDE: kibana
+# REQUIRE: DAEMON
+# KEYWORD: shutdown
+
+#
+# Configuration settings for kibana in ${kibana_directory}/KibanaConfig.rb
+#
+# kibana_enable (bool):
+#   Set to "NO" by default.
+#   Set it to "YES" to enable kibana
+
+. /etc/rc.subr
+
+name="kibana"
+rcvar=kibana_enable
+
+start_cmd="kibana_start"
+stop_cmd="kibana_stop"
+
+load_rc_config "${name}"
+
+: ${kibana_enable:=NO}
+: ${kibana_directory:=/usr/local/www/kibana}
+
+piddir="${kibana_directory}/tmp"
+
+if [ -d $piddir ]; then
+    mkdir -p $piddir
+fi
+
+command="/usr/local/bin/ruby"
+command_args="${kibana_directory}/kibana-daemon.rb"
+
+kibana_start()
+{
+        echo -n 'Starting kibana:'
+        $command $command_args start
+        echo '.'
+}
+
+kibana_stop()
+{
+        echo -n 'Stopping kibana:'
+        $command $command_args stop
+        echo '.'
+}
+
+run_rc_command "$1"
+
